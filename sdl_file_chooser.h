@@ -26,7 +26,7 @@
 #include <SDL2/SDL.h>
 #include "SDL_ttf.h"
 
-#define TITLE "Choose a file"
+#define FILECHOOSER_TITLE "Choose a file"
 
 class FileChooser
 {

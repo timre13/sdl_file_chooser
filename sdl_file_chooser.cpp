@@ -28,7 +28,7 @@ void FileChooser::getFileList(std::string directory)
 
 void FileChooser::drawTitle()
 {
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, TITLE, {255, 255, 255, 255});
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, FILECHOOSER_TITLE, {255, 255, 255, 255});
     
     SDL_Rect sourceRect{0, 0, textSurface->w,        textSurface->h};
     SDL_Rect targetRect{10, 10, textSurface->w / 3,    textSurface->h / 3};
