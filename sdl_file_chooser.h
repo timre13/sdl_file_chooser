@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <iostream>
 #include <SDL2/SDL.h>
 #include "SDL_ttf.h"
 

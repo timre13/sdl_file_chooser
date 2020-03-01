@@ -72,6 +72,12 @@ FileChooser::FileChooser(std::string directory)
     
     font = TTF_OpenFont("./Anonymous_Pro.ttf", 100);
     
+    if (!font)
+    {
+        std::cerr << "Unable to open font file." << '\n';
+	std::exit(2);
+    }
+
     bool isRunning{true};
     while (isRunning)
     {
