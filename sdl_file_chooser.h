@@ -44,6 +44,8 @@ private:
     void drawFileList();
     void drawTitle();
 
+    void deinit();
+
 public:
     FileChooser(std::string directory);
     ~FileChooser();

@@ -75,7 +75,7 @@ FileChooser::FileChooser(std::string directory)
     if (!font)
     {
         std::cerr << "Unable to open font file." << '\n';
-	std::exit(2);
+        std::exit(2);
     }
 
     bool isRunning{true};
@@ -115,6 +115,8 @@ FileChooser::FileChooser(std::string directory)
                         break;
                     
                     case SDLK_RETURN:
+                        isRunning = false;
+                        deinit();
                         return;
                 }
             break;
@@ -134,6 +136,8 @@ FileChooser::FileChooser(std::string directory)
         
         SDL_Delay(20);
     }
+    
+    deinit();
 }
 
 std::string FileChooser::get()
@@ -144,7 +148,7 @@ std::string FileChooser::get()
     return ""; // return an empty string if the user closed the window
 }
 
-FileChooser::~FileChooser()
+void FileChooser::deinit()
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -153,4 +157,9 @@ FileChooser::~FileChooser()
     
     TTF_Quit();
     SDL_Quit();
+}
+
+FileChooser::~FileChooser()
+{
+    deinit();
 }
