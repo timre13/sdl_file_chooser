@@ -21,7 +21,7 @@
 
 int main()
 {
-    FileChooser fileChooser{".."};
+    FileChooser fileChooser{"."};
     std::string chosenFile{fileChooser.get()};
     
     std::cout << "Selected: " << chosenFile << '\n';
