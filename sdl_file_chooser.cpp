@@ -22,7 +22,9 @@
 
 void FileChooser::getFileList(std::string directory)
 {
-    auto files{std::filesystem::recursive_directory_iterator{directory}};
+    auto files{std::filesystem::recursive_directory_iterator{
+        directory,
+        std::filesystem::directory_options::skip_permission_denied}};
     
     for (auto &file : files)
     {
@@ -91,14 +93,24 @@ void FileChooser::drawFileList()
 
 FileChooser::FileChooser(std::string directory)
 {
-    getFileList(directory);
-    
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
     
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 1000, SDL_WINDOW_ALLOW_HIGHDPI);
     
+    if (!window)
+    {
+        std::cerr << "Unable to create window" << '\n';
+        std::exit(2);
+    }
+    
     renderer = SDL_CreateRenderer(window, -1, 0);
+    
+    if (!renderer)
+    {
+        std::cerr << "Unable to create renderer" << '\n';
+        std::exit(2);
+    }
     
     font = TTF_OpenFont("./Anonymous_Pro.ttf", 100);
     
@@ -110,6 +122,7 @@ FileChooser::FileChooser(std::string directory)
 
     drawLoadingText();
     SDL_RenderPresent(renderer);
+    getFileList(directory);
 
     bool isRunning{true};
     while (isRunning)
