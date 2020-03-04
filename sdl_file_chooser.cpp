@@ -35,24 +35,9 @@ void FileChooser::getFileList(std::string directory)
     std::sort(fileList.begin(), fileList.end());
 }
 
-void FileChooser::drawTitle()
+void FileChooser::drawTitle(const std::string &title)
 {
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, FILECHOOSER_TITLE, {255, 255, 255, 255});
-    
-    SDL_Rect sourceRect{0, 0, textSurface->w,        textSurface->h};
-    SDL_Rect targetRect{10, 10, textSurface->w / 3,    textSurface->h / 3};
-    
-    SDL_Texture* textTexture{SDL_CreateTextureFromSurface(renderer, textSurface)};
-    
-    SDL_RenderCopy(renderer, textTexture, &sourceRect, &targetRect);
-    
-    SDL_DestroyTexture(textTexture);
-    SDL_FreeSurface(textSurface);
-}
-
-void FileChooser::drawLoadingText()
-{
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, "Loading...", {255, 255, 255, 255});
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font, title.c_str(), {255, 255, 255, 255});
     
     SDL_Rect sourceRect{0, 0, textSurface->w,        textSurface->h};
     SDL_Rect targetRect{10, 10, textSurface->w / 3,    textSurface->h / 3};
@@ -91,6 +76,13 @@ void FileChooser::drawFileList()
     }
 }
 
+void FileChooser::drawSelector()
+{
+    SDL_SetRenderDrawColor(renderer, 100, 100, 100, 100);
+    SDL_Rect selectorRect{0, 500, 800, 25};
+    SDL_RenderFillRect(renderer, &selectorRect);
+}
+
 FileChooser::FileChooser(std::string directory)
 {
     SDL_Init(SDL_INIT_VIDEO);
@@ -120,7 +112,7 @@ FileChooser::FileChooser(std::string directory)
         std::exit(2);
     }
 
-    drawLoadingText();
+    drawTitle("Loading...");
     SDL_RenderPresent(renderer);
     getFileList(directory);
 
@@ -170,12 +162,9 @@ FileChooser::FileChooser(std::string directory)
         
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        
-        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 100);
-        SDL_Rect selectorRect{0, 500, 800, 25};
-        SDL_RenderFillRect(renderer, &selectorRect);
-        
-        drawTitle();
+
+        drawSelector();
+        drawTitle(FILECHOOSER_TITLE);
         drawFileList();
         
         SDL_RenderPresent(renderer);
