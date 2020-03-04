@@ -17,6 +17,8 @@
  */
 
 #include "sdl_file_chooser.h"
+#include <cmath>
+#include <stdint.h>
 
 void FileChooser::getFileList(std::string directory)
 {
@@ -69,7 +71,10 @@ void FileChooser::drawFileList()
         
         if (y  < 1000 && y > 0)
         {
-            SDL_Surface *textSurface = TTF_RenderText_Blended(font, fileList[i].c_str(), {255, 255, 255, 200});
+            SDL_Surface *textSurface = TTF_RenderText_Blended(
+                font,
+                fileList[i].c_str(),
+                {255, 255, 255, static_cast<uint8_t>(255-abs(500-y)/2)});
             
             SDL_Rect sourceRect{0, 0, textSurface->w,        textSurface->h};
             SDL_Rect targetRect{0, y, textSurface->w / 5,    textSurface->h / 5};
